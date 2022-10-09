@@ -32,7 +32,7 @@ class Game():
             
             self.screen.fill("Black")
             self.screen.blit(self.square.image, self.square.rect)
-            print(self.square.rect.center[0])
+            print(1920 * 10/256)
             display.update()
             self.clock.tick(60)
 
