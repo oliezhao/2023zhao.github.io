@@ -47,6 +47,8 @@ class Map():
         self.player.rect.x += self.player.speed.x
         self.player.rect.y += self.player.speed.y
         
+        if sprite.spritecollide(self.player):
+        
         if not(sprite.collide_rect(self.player, self.camra)):
 
             if self.player.rect.right < self.camra.rect.left: 
