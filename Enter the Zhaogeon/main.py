@@ -61,10 +61,15 @@ class Game:
 
             #Debug BS
             string = ""
-            if not(sprite.collide_rect(self.map.player, self.map.camera)): string += "Out of bounds, "
+            
+            string += str(self.map.player.speed.xy)
+            
+            if not(sprite.collide_rect(self.map.player, self.map.camera)): string += "Out of bounds, " #displays when player out of camera bounds
             wall_in_contact = sprite.spritecollide(self.map.player, self.map.wall_spritegroup, False)
-            if wall_in_contact: 
+            
+            if wall_in_contact: #displays when player collides with wall
                 string += "Collision with Wall, "
+            
             
             debug(string) #debug is always drawn last
 
