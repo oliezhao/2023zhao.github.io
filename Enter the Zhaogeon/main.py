@@ -10,56 +10,49 @@ from cursor import *
 
 class Game:
     def __init__(self):
-
         super().__init__()
-        display.set_caption("A Levels") 
+        display.set_caption("Dogwater")
         self.screen = display.set_mode(windowsize)
         self.clock = time.Clock()
 
-        self.cursor = Cursor() #Creates an Instane of Cursor
-        self.UI_spritelist = sprite.Group(self.cursor) #Adds self.cursor to UI_spritelist
-        #All cordinates of cursor should be taken from self.cursor.rect. This allows manipulation of cursor by enemies.
-        #Enemy can trap cursor. Create a barrier in which the cursor cannot enter e.c.t
         
-        self.map = Map() #Creates an Instance of Map
+        #--Object Creation--
+        #decalres an Instance of Cursor
+        self.cursor = Cursor()
+        self.UI_spritelist = sprite.Group(self.cursor)
+        
+        #declares an Instance of Map
+        #an Instance of Player is declared in Map
+        self.map = Map()
         
     def run(self):
         
         #--GAME LOOP--
         while True:
             
-            keys = key.get_pressed() #Creates array
-
+            #detect keys pressed every loop
+            keys = key.get_pressed()
+            
             for event in pygame.event.get():
-
-                if (event.type == QUIT) or (keys[K_ESCAPE]): #Exit conditions for game
+                #quits game if window is closed or escape key is pressed
+                if event.type == QUIT or keys[K_ESCAPE]:
                     quit()
                     exit()
                     
             #--Game Logic
             
-            #1. Update cursor
-            #Player Instance created and updated in map because player is only spawned when map is loaded. I.e on main menu player isnt displayed or updated. Also makes pausing game easier as i only need to stop updating Map
-            #Enemy Instance will also be created an updated on map
-            #2. Update Map - player on map needs cursor info to calculate which 
-
-            self.cursor.update() #Updates cursor
-            #Sets self.cursor.rect.center to mouse cordinates)
-            self.map.update(self.cursor.rect.center) #Updates map
-            #Updates player on map
-            #Moves map
-                #moves player
-                #calculates if player is within camera range
-                    #if he is nothing happens
-                    #if he isn't tellport him back within ranges
-
+            #moves cursor sprite to mouse location
+            self.cursor.update()
+            
+            #spawns player on map
+            #runs player.update
+            self.map.update(self.cursor.rect.center)
+            
             #--Display order
-
-            self.screen.fill('black') #Background
-            self.map.draw() #Draws map
-            self.UI_spritelist.draw(self.screen) # Draws UI
-
-            #Debug BS
+            self.screen.fill('black')
+            self.map.draw(self.screen)
+            self.UI_spritelist.draw(self.screen)
+            #debug is always drawn last
             string = ""
             
             string += str(self.map.player.speed.xy)
@@ -77,7 +70,7 @@ class Game:
             self.clock.tick(60)
 
 if __name__ == '__main__':
-    mouse.set_visible(False) #Hides Mouse
+    mouse.set_visible(False)
     game = Game()
     game.run()
     

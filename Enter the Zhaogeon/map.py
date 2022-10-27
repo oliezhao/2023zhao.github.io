@@ -6,19 +6,20 @@ from level import *
 from player import *
 from wall import *
 from cursor import *
-from camera import *
+from camra import *
 
 #the map is created in Main
 class Map():
     def __init__(self):
         super().__init__()
-    
-        self.player_spawn_sprite = "graphics/PS_nogun-8x12.png" #the sprite the player spawns with
-        self.worldshift = Vector2(0,0) #used to self very element on screen
+        
+        #spawning sprite of player
+        self.player_spawn_sprite = "graphics/PS_nogun-8x12.png"
+        self.worldshift = Vector2(0,0)
         
         #camra
-        self.camera = Camera()
-        self.camra_spritegroup = sprite.GroupSingle(self.camera)
+        self.camra = Camra()
+        self.camra_spritegroup = sprite.GroupSingle(self.camra)
         
         #declaring player
         self.player_speed = 7
@@ -27,23 +28,19 @@ class Map():
         #wall
         self.wall_spritegroup = sprite.Group()
         
-        self.display_sprites = sprite.Group()
-        self.all_sprites = sprite.Group(self.camra_spritegroup)
-
+        
         self.loadmap(level1)
         
     def loadmap(self, level):
-        size = int( 24 * (screenx/256) ) # size of wall tile (it is a square)
+        size = int( 15 * (screenx/256) )
         for row_i, row in enumerate(level):
             for collum_i, object in enumerate(row):
                 if object == 1:
-                    self.wall = Wall(size, [collum_i * size, row_i * size])#positions the Wall on screen in position of its order in the 2d array * its size (for both sides/axis)
-                    self.wall_spritegroup.add(self.wall)#adds the wall into the wall spritegroup
-                    self.all_sprites.add(self.wall)#adds the wall into the all_sprites spritegroup
+                    self.wall = Wall([collum_i * size, row_i * size])
+                    self.wall_spritegroup.add(self.wall)
                 if object == 2:
-                    self.player = Player([collum_i * size, row_i *size], self.player_speed, self.player_spawn_sprite)#spawns player in position of its position in array * size of wall. With its speed and spawning sprite
-                    self.player_spritegroup.add(self.player)#
-                    self.all_sprites.add(self.player)#adds player 
+                    self.player = Player([collum_i * size, row_i *size], self.player_speed, self.player_spawn_sprite)
+                    self.player_spritegroup.add(self.player)
 
     def collision_detect(self, direction):
 
@@ -117,18 +114,32 @@ class Map():
         if self.camera_detect("y"):
         if not(self.collision_detect("y")): self.camera_detect("y")
 
-        #self.player.speed is calculated in Player Class, ran in update through player.update (which rans player.speed_calcu)
+            if self.player.rect.right < self.camra.rect.left: 
+                self.player.rect.right = self.camra.rect.left + 1
+            elif self.player.rect.left > self.camra.rect.right: 
+                self.player.rect.left = self.camra.rect.right - 1
+                
+            if self.player.rect.top > self.camra.rect.bottom: 
+                self.player.rect.top = self.camra.rect.bottom - 1
+            elif self.player.rect.bottom < self.camra.rect.top: 
+                self.player.rect.bottom = self.camra.rect.top + 1
+                
+            for self.wall in self.wall_spritegroup:
+                self.wall.rect.x -= self.player.speed.x
+                self.wall.rect.y -= self.player.speed.y
+        else:
+            self.worldshift.x = 0
+            self.worldshift.y = 0
     
     def update(self, cursor_pos):
+        #passes cursor position to player
+        print(self.player.speed)
+        self.move()
+        self.player.update(cursor_pos)
         
-        #move method needs player info to be calculated first
-
-        self.player.update(cursor_pos) #player updates does all the calculations of the player
-        self.move() #moves all sprites on map accordingly
         
-    def draw(self):
-        screen = display.get_surface()
-        screen.blit(self.camera.hitbox, self.camera.rect)
-        self.wall_spritegroup.draw(screen)
-        self.player_spritegroup.draw(screen)
+    def draw(self, surface):
+        surface.blit(self.camra.hitbox, self.camra.rect)
+        self.wall_spritegroup.draw(surface)
+        self.player_spritegroup.draw(surface)
         
