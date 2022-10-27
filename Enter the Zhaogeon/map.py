@@ -113,6 +113,10 @@ class Map():
 
         
         self.player.rect.y += self.player.speed.y
+        if not(self.collision_detect("y")): self.camera_detect("y")
+
+        
+        self.player.rect.y += self.player.speed.y
         
         if sprite.spritecollide(self.player):
         
