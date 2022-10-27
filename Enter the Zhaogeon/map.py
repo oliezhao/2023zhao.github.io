@@ -42,14 +42,72 @@ class Map():
                     self.player = Player([collum_i * size, row_i *size], self.player_speed, self.player_spawn_sprite)
                     self.player_spritegroup.add(self.player)
 
+<<<<<<< HEAD
+=======
+    def collision_detect(self, direction):
+
+        walls_in_contact = sprite.spritecollide(self.player, self.wall_spritegroup, False) #Creates a list of all walls in collision with player
+        if walls_in_contact: #if the list is not empty
+            for wall in walls_in_contact: #checks for very wall in contact
+                if direction == "x": #if checking for the x axis
+                    if self.player.move_direction.x > 0: #if player is moving right
+                        self.player.rect.right = wall.rect.left #the player's right is teleported to the walls left
+                        return True
+                    elif self.player.move_direction.x < 0: #if the player is moving left
+                        self.player.rect.left = wall.rect.right #the player's left is teleported to the walls right
+                        return  True
+                    else:
+                        return False
+
+                if direction == "y": #if checking for y axis
+                    if self.player.move_direction.y > 0: #if player is moving down
+                        self.player.rect.bottom = wall.rect.top #players bottom is teleported to the walls top
+                        return True
+                    elif self.player.move_direction.y < 0: #if player is moving up
+                        self.player.rect.top = wall.rect.bottom #players top is teleported to walls bottom
+                        return True
+                    else:
+                        return False
+
+    def camera_detect(self, direction):
+
+        if not(sprite.collide_rect(self.player, self.camera)):
+            for wall in self.wall_spritegroup:
+                if direction == "x":
+                    if self.player.rect.right < self.camera.rect.left: #detects if the player is to the left or right of the camera hitbox
+                        
+                        self.player.rect.right = self.camera.rect.left + 1#teleports player back to the according side of the camera hitbox
+                    elif self.player.rect.left > self.camera.rect.right: 
+                        self.player.rect.left = self.camera.rect.right - 1
+
+                    wall.rect.x -= self.player.speed.x
+
+                if direction == "y":
+                    if self.player.rect.top > self.camera.rect.bottom: #detects if the player is to the top or bottom of the camera
+                        self.player.rect.top = self.camera.rect.bottom - 1#teleports the player to the according side of the camera hitbox
+                    elif self.player.rect.bottom < self.camera.rect.top: 
+                        self.player.rect.bottom = self.camera.rect.top + 1
+                    
+                    wall.rect.y -= self.player.speed.y
+>>>>>>> parent of 4faa2bf (Debug Fix)
     def move(self):
         
+<<<<<<< HEAD
         self.player.rect.x += self.player.speed.x
         self.player.rect.y += self.player.speed.y
         
         if sprite.spritecollide(self.player):
         
         if not(sprite.collide_rect(self.player, self.camra)):
+=======
+        #x axis
+        self.player.rect.x += self.player.speed.x #moves players
+        if not(self.collision_detect("x")): self.camera_detect("x")
+        
+        #y axis
+        self.player.rect.y += self.player.speed.y
+        if not(self.collision_detect("y")): self.camera_detect("y")
+>>>>>>> parent of 4faa2bf (Debug Fix)
 
             if self.player.rect.right < self.camra.rect.left: 
                 self.player.rect.right = self.camra.rect.left + 1
