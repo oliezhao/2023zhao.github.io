@@ -6,7 +6,7 @@ from level import *
 from player import *
 from wall import *
 from cursor import *
-from camra import *
+from camera import *
 
 #the map is created in Main
 class Map():
@@ -18,8 +18,8 @@ class Map():
         self.worldshift = Vector2(0,0)
         
         #camra
-        self.camra = Camra()
-        self.camra_spritegroup = sprite.GroupSingle(self.camra)
+        self.camera = Camra()
+        self.camera_spritegroup = sprite.GroupSingle(self.camera)
         
         #declaring player
         self.player_speed = 7
@@ -124,7 +124,7 @@ class Map():
         
         
     def draw(self, surface):
-        surface.blit(self.camra.hitbox, self.camra.rect)
+        surface.blit(self.camera.hitbox, self.camera.rect)
         self.wall_spritegroup.draw(surface)
         self.player_spritegroup.draw(surface)
         
