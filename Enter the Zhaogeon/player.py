@@ -36,13 +36,14 @@ class Player(sprite.Sprite):
                 if keys[K_s]: self.move_direction.y = 1
                 
             #if the player is moving diagonally, reduce speed of both axis by 30% to maintain constaint
-            if self.move_direction.x != 0 and self.move_direction.y != 0:
+            if self.move_direction.x and self.move_direction.y != 0:
                 
-                self.move_direction.x *= sqrt((self.const_speed**2)/2)
-                self.move_direction.y *= sqrt((self.const_speed**2)/2)
-            
-            self.speed.x = self.const_speed * self.move_direction.x
-            self.speed.y = self.const_speed * self.move_direction.y
+                self.speed.x = int( self.move_direction.x * sqrt((self.const_speed**2)/2) )
+                self.speed.y = int( self.move_direction.y * sqrt((self.const_speed**2)/2) )
+
+            else:
+                self.speed.x = self.const_speed * self.move_direction.x
+                self.speed.y = self.const_speed * self.move_direction.y
             
         else:
             self.move_direction = (0,0)
