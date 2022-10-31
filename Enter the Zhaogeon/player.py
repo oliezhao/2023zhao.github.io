@@ -9,44 +9,69 @@ class Player(sprite.Sprite):
         super().__init__()
 
         self.sprite = spawn_sprite
+
         self.image = image.load(self.sprite).convert_alpha()
         self.image = transform.scale(self.image, (screenx * 8/256, screeny * 12/144))
         self.rect = self.image.get_rect(topleft = position)
+
+        self.health = 6
+
         self.const_speed = speed
         self.speed = Vector2(0,0)
+        
         self.face_direction = ""
         self.move_direction = Vector2(0,0)
         
+        self.state = "" #change to array so player can have multiple states
+        self.invinc = False
+
         self.cursor =  Cursor()
-    
-    def speed_calc(self):
+
+        self.roll_timer = 0
+
+    def get_time(self):
+        return time.get_ticks()
+
+    def input_detect(self):
         keys = key.get_pressed()
         #checks if keys are being pressed
-        if keys:
-            #if both, or none of the "x-axis keys" are being pressed the player does not move
-            if (not(keys[K_a] or keys[K_d])) or (keys[K_a] and keys[K_d]): self.move_direction.x = 0
-            else:
-                if keys[K_d]: self.move_direction.x = 1
-                if keys[K_a]: self.move_direction.x = -1
-            
-            #same logic applied to the y axis
-            if (not(keys[K_w] or keys[K_s])) or (keys[K_w] and keys[K_s]): self.move_direction.y = 0
-            else:
-                if keys[K_w]: self.move_direction.y = -1
-                if keys[K_s]: self.move_direction.y = 1
-                
-            #if the player is moving diagonally, reduce speed of both axis by 30% to maintain constaint
-            if self.move_direction.x and self.move_direction.y != 0:
-                
-                self.speed.x = int( self.move_direction.x * sqrt((self.const_speed**2)/2) )
-                self.speed.y = int( self.move_direction.y * sqrt((self.const_speed**2)/2) )
 
-            else:
-                self.speed.x = self.const_speed * self.move_direction.x
-                self.speed.y = self.const_speed * self.move_direction.y
+        if keys:
+            if self.state != "rolling":#if player is not rolling
+                if (not(keys[K_a] or keys[K_d])) or (keys[K_a] and keys[K_d]): #if player is pressing both x-axis buttons,
+                    self.move_direction.x = 0 #player does not move
+                else:
+                    if keys[K_d]: self.move_direction.x = 1 #player is moving to the right (pos x axis)
+                    if keys[K_a]: self.move_direction.x = -1 #player is moving to the left (neg x axis)
+                
+                if (not(keys[K_w] or keys[K_s])) or (keys[K_w] and keys[K_s]): #if both y-axis buttons are pressed
+                     self.move_direction.y = 0 # no movement in y axis
+                else:
+                    if keys[K_w]: self.move_direction.y = -1 #player is moving up (neg y axis)
+                    if keys[K_s]: self.move_direction.y = 1 #player is moving down (pos y axis)
+                
+                if keys[K_SPACE]:
+                    self.roll_timer = time.get_ticks()
+                    self.invinc = True
+                    self.state = "rolling"
+        
+        if self.state == "rolling":
+            if self.get_time() - self.roll_timer >= 200: self.state = ""
+        # else: #if no keys are being pressed player is not moving
+        #     self.move_direction = (0,0)
+
+    def speed_calc(self):
+
+        #if the player is moving diagonally, reduce speed of both axis by 30% to maintain constaint
+        if self.move_direction.x and self.move_direction.y != 0:
             
+            self.speed.x = int( self.move_direction.x * sqrt((self.const_speed**2)/2) )
+            self.speed.y = int( self.move_direction.y * sqrt((self.const_speed**2)/2) )
+
         else:
-            self.move_direction = (0,0)
+            self.speed.x = self.const_speed * self.move_direction.x
+            self.speed.y = self.const_speed * self.move_direction.y
+
 
     def face_direction_calc(self, cursor_pos):
         #takes in cursor_pos through Map from Main
@@ -77,18 +102,23 @@ class Player(sprite.Sprite):
         #instead of directly changing the player sprite to an image. Change a new variable, self.face_direction and have animate() calculate which sprite to display
 
     def animate(self):
-        if self.face_direction == "N": self.sprite = "graphics/PN_nogun-8x12.png"
-        if self.face_direction == "NW":self.sprite = "graphics/PNW_nogun-8x12.png"
-        if self.face_direction == "NE":self.sprite = "graphics/PNE_nogun-8x12.png"
-        if self.face_direction == "S": self.sprite = "graphics/PS_nogun-8x12.png"
-        if self.face_direction == "SE":self.sprite = "graphics/PSE_nogun-8x12.png"
-        if self.face_direction == "SW":self.sprite = "graphics/PSW_nogun-8x12.png"
-            
+        if self.state != "rolling":
+            if self.face_direction == "N": self.sprite = "graphics/PN_nogun-8x12.png"
+            if self.face_direction == "NW":self.sprite = "graphics/PNW_nogun-8x12.png"
+            if self.face_direction == "NE":self.sprite = "graphics/PNE_nogun-8x12.png"
+            if self.face_direction == "S": self.sprite = "graphics/PS_nogun-8x12.png"
+            if self.face_direction == "SE":self.sprite = "graphics/PSE_nogun-8x12.png"
+            if self.face_direction == "SW":self.sprite = "graphics/PSW_nogun-8x12.png"
+        
+        if self.state == "rolling":
+            self.image.fill("White")
+
         self.image = image.load(self.sprite).convert_alpha()
         self.image = transform.scale(self.image, (screenx * 8/256, screeny * 12/144))
         
     def update(self, cursor_pos):
         #cursor pos should be same as get.mouse_pos()
+        self.input_detect()
         self.face_direction_calc(cursor_pos)
         self.speed_calc()
         self.animate()
