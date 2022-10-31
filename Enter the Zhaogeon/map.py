@@ -42,7 +42,7 @@ class Map():
                     self.player = Player([collum_i * size, row_i *size], self.player_speed, self.player_spawn_sprite)
                     self.player_spritegroup.add(self.player)
 
-    def collision_detect(self, direction):
+    def collision_detect(self, direction):#returns true when player collids with wall, returns false when player is not colliding with wall
 
         walls_in_contact = sprite.spritecollide(self.player, self.wall_spritegroup, False) #Creates a list of all walls in collision with player
         if walls_in_contact: #if the list is not empty
@@ -67,26 +67,26 @@ class Map():
                     else:
                         return False
 
-    def camera_detect(self, direction):
+    def camera_detect(self, direction):#returns a value if player is outside camera hitbox, returns false is player is within.
         
-        if not(sprite.collide_rect(self.player, self.camera)):
+        if not(sprite.collide_rect(self.player, self.camera)): #if player is not colliding with camera hitbox
             for wall in self.wall_spritegroup:
                 if direction == "x":
                     if self.player.rect.right < self.camera.rect.left: #detects if the player is to the left or right of the camera hitbox
                         return "pc"
                     elif self.player.rect.left > self.camera.rect.right: 
                         return "cp"
-                    else:
-                        return False
-                        
+
                 if direction == "y":
-                    if self.player.rect.top > self.camera.rect.bottom: #detects if the player is to the top or bottom of the camera
-                        self.player.rect.top = self.camera.rect.bottom - 1#teleports the player to the according side of the camera hitbox
-                    elif self.player.rect.bottom < self.camera.rect.top: 
-                        
-                        self.player.rect.bottom = self.camera.rect.top + 1
+                    if self.player.rect.top > self.camera.rect.bottom: #player is underneath camera hitbox
+                        return "c/p"
+                    elif self.player.rect.bottom < self.camera.rect.top:  #player is above cameraiu hitbox
+                        return "p/c"
+        
+        else: #if player is colliding with camera hitbox
+            return False
+
                     
-                    wall.rect.y -= self.player.speed.y
     def move(self):
 
         #should probably split into different functions
@@ -95,20 +95,29 @@ class Map():
 
         #moves player first so game can tell where he would be and correct to be where he should be
 
+        #---X AXIS MOVEMENT
         self.player.rect.x += self.player.speed.x #moves players
 
-        if not(self.collision_detect("x")) and not(self.camera_detect("x")):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
-            for wall in self.wall_spritegroup:
-                wall.rect.x += self.player.speed.x
+        print(self.camera_detect("x"))
 
-        
+        if not(self.collision_detect("x")) and self.camera_detect("x"):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
+            for wall in self.wall_spritegroup:
+                wall.rect.x -= self.player.speed.x
+
         if self.camera_detect("x") == "pc": self.player.rect.right = self.camera.rect.left + 1
         if self.camera_detect("x") == "cp": self.player.rect.left = self.camera.rect.right - 1
 
 
-        
+        #-----Y AXIS MOVEMENT
         self.player.rect.y += self.player.speed.y
-        if not(self.collision_detect("y")): self.camera_detect("y")
+
+        if not(self.collision_detect("y")) and self.camera_detect("y"):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
+            for wall in self.wall_spritegroup:
+                wall.rect.y -= self.player.speed.y
+
+        if self.camera_detect("y") == "p/c": self.player.rect.bottom = self.camera.rect.top + 1
+        if self.camera_detect("y") == "c/p": self.player.rect.top = self.camera.rect.bottom - 1
+
 
     
     def update(self, cursor_pos):
