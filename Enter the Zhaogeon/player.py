@@ -1,5 +1,7 @@
+from asyncio import constants
 from pygame import *
 from settings import *
+from math import sqrt
 
 #Objects of Player created in Map
 class Player(sprite.Sprite):
@@ -34,10 +36,10 @@ class Player(sprite.Sprite):
                 if keys[K_s]: self.move_direction.y = 1
                 
             #if the player is moving diagonally, reduce speed of both axis by 30% to maintain constaint
-            if self.move_direction.x and self.move_direction.y != 0:
+            if self.move_direction.x != 0 and self.move_direction.y != 0:
                 
-                self.move_direction.x *= 5/7
-                self.move_direction.y *= 5/7
+                self.move_direction.x *= sqrt((self.const_speed**2)/2)
+                self.move_direction.y *= sqrt((self.const_speed**2)/2)
             
             self.speed.x = self.const_speed * self.move_direction.x
             self.speed.y = self.const_speed * self.move_direction.y

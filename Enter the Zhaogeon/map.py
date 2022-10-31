@@ -22,7 +22,7 @@ class Map():
         self.camera_spritegroup = sprite.GroupSingle(self.camera)
         
         #declaring player
-        self.player_speed = 7
+        self.player_speed = int(screenx/200)
         self.player_spritegroup = sprite.GroupSingle()
         
         #wall
@@ -68,22 +68,6 @@ class Map():
                         return False
 
     def camera_detect(self, direction):
-
-        # if not(sprite.collide_rect(self.player, self.camera)): #if player is out of bounds with camera
-
-        #     if self.player.rect.right < self.camera.rect.left: #detects if the player is to the left or right of the camera hitbox
-        #         self.player.rect.right = self.camera.rect.left + 1#teleports player back to the according side of the camera hitbox
-        #     elif self.player.rect.left > self.camera.rect.right: 
-        #         self.player.rect.left = self.camera.rect.right - 1
-                
-        #     if self.player.rect.top > self.camera.rect.bottom: #detects if the player is to the top or bottom of the camera
-        #         self.player.rect.top = self.camera.rect.bottom - 1#teleports the player to the according side of the camera hitbox
-        #     elif self.player.rect.bottom < self.camera.rect.top: 
-        #         self.player.rect.bottom = self.camera.rect.top + 1
-                
-        #     for self.wall in self.wall_spritegroup: #change to "for element in self.nonplayer_spritegroup" at later date
-        #         self.wall.rect.x -= self.player.speed.x #because player is being teleport back to camera hitbox, all assets move in oppsite direcction of player, with player speed to simulate player movement
-        #         self.wall.rect.y -= self.player.speed.y
         
         if not(sprite.collide_rect(self.player, self.camera)):
             for wall in self.wall_spritegroup:
