@@ -73,16 +73,17 @@ class Map():
             for wall in self.wall_spritegroup:
                 if direction == "x":
                     if self.player.rect.right < self.camera.rect.left: #detects if the player is to the left or right of the camera hitbox
-                        self.player.rect.right = self.camera.rect.left + 1#teleports player back to the according side of the camera hitbox
+                        return "pc"
                     elif self.player.rect.left > self.camera.rect.right: 
-                        self.player.rect.left = self.camera.rect.right - 1
-
-                    wall.rect.x -= self.player.speed.x
-
+                        return "cp"
+                    else:
+                        return False
+                        
                 if direction == "y":
                     if self.player.rect.top > self.camera.rect.bottom: #detects if the player is to the top or bottom of the camera
                         self.player.rect.top = self.camera.rect.bottom - 1#teleports the player to the according side of the camera hitbox
                     elif self.player.rect.bottom < self.camera.rect.top: 
+                        
                         self.player.rect.bottom = self.camera.rect.top + 1
                     
                     wall.rect.y -= self.player.speed.y
@@ -92,8 +93,18 @@ class Map():
 
         #moves player first so that he can be teleported to correct position later
 
+        #moves player first so game can tell where he would be and correct to be where he should be
+
         self.player.rect.x += self.player.speed.x #moves players
-        if not(self.collision_detect("x")): self.camera_detect("x")
+
+        if not(self.collision_detect("x")) and not(self.camera_detect("x")):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
+            for wall in self.wall_spritegroup:
+                wall.rect.x += self.player.speed.x
+
+        
+        if self.camera_detect("x") == "pc": self.player.rect.right = self.camera.rect.left + 1
+        if self.camera_detect("x") == "cp": self.player.rect.left = self.camera.rect.right - 1
+
 
         
         self.player.rect.y += self.player.speed.y

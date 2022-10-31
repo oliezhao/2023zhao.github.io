@@ -54,7 +54,7 @@ class Game:
             self.UI_spritelist.draw(self.screen)
             #debug is always drawn last
             string = ""
-            if not(sprite.collide_rect(self.map.player, self.map.camera)): string += "Out of bounds, "
+            if not(self.map.camera_detect): string += "Out of bounds, "
             wall_in_contact = sprite.spritecollide(self.map.player, self.map.wall_spritegroup, False)
             if wall_in_contact: 
                 string += "Collision with Wall, "
