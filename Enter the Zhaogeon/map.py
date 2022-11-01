@@ -55,6 +55,14 @@ class Map():
         self.not_player_spritegroup.add(self.wall_spritegroup)
         self.not_player_spritegroup.add(self.gun_spritegroup)
 
+    def gun_detect(self, direction):
+        guns_in_cotact = sprite.spritecollide(self.player, self.gun_spritegroup, True)
+        if guns_in_cotact:
+            for gun in guns_in_cotact:
+                highlight = Surface(gun.image.get_size()[0]+50, gun.image.get_size()[1]+50)
+                highligh_rect = highlight.get_rect(center = gun.rect.center)
+                return highlight, 
+                    
     def wall_detect(self, direction):#returns true when player collids with wall, returns false when player is not colliding with wall
 
         walls_in_contact = sprite.spritecollide(self.player, self.wall_spritegroup, False) #Creates a list of all walls in collision with player
@@ -142,6 +150,7 @@ class Map():
     def draw(self, surface):
         #surface.blit(self.camera.hitbox, self.camera.rect)
         self.wall_spritegroup.draw(surface)
+        self.gun_detect("x")
         draw.rect(surface, "Red", self.gun.rect)
         self.gun_spritegroup.draw(surface)
         self.player_spritegroup.draw(surface)

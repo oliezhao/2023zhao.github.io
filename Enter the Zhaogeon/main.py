@@ -43,7 +43,7 @@ class Game:
             
             #moves cursor sprite to mouse location
             self.cursor.update()
-            
+    
             #runs player.update
             self.map.update(self.cursor.rect.center)
             

@@ -22,7 +22,8 @@ class Player(sprite.Sprite):
         self.face_direction = ""
         self.move_direction = Vector2(0,0)
         
-        self.state = "" #change to array so player can have multiple states
+        self.state = []
+        #self.state = "" #change to array so player can have multiple states
         self.invinc = False
 
         self.cursor =  Cursor()
@@ -35,7 +36,7 @@ class Player(sprite.Sprite):
         #checks if keys are being pressed
 
         if keys:
-            if self.state != "rolling":#if player is not rolling
+            if "rolling" not in self.state:#if player is not rolling
                 if (not(keys[K_a] or keys[K_d])) or (keys[K_a] and keys[K_d]): #if player is pressing both x-axis buttons,
                     self.move_direction.x = 0 #player does not move
                 else:
@@ -51,13 +52,13 @@ class Player(sprite.Sprite):
                 if keys[K_SPACE] and (time.get_ticks() - self.roll_colldown >= 200):#player rolls, only detects when player is not rolling
                     self.roll_timer = time.get_ticks()
                     self.invinc = True
-                    self.state = "rolling"
+                    self.state.append("rolling")
                     self.move_direction.x *= 0.5
                     self.move_direction.y *= 0.5
         
-        if self.state == "rolling":
+        if "rolling" in self.state:
             if time.get_ticks() - self.roll_timer >= 400:
-                self.state = ""
+                self.state.remove("rolling")
                 self.roll_colldown = time.get_ticks()
         # else: #if no keys are being pressed player is not moving
         #     self.move_direction = (0,0)
@@ -114,7 +115,7 @@ class Player(sprite.Sprite):
             self.image = image.load(self.sprite).convert_alpha()
             self.image = transform.scale(self.image, (screenx * 8/256, screeny * 12/144))
         
-        if self.state == "rolling":
+        if "rolling" in self.state:
             self.image.fill("White")
 
 
