@@ -10,6 +10,7 @@ from cursor import *
 from camera import *
 from gun import *
 
+from debug import *
 #the map is created in Main
 class Map():
     def __init__(self):
@@ -58,10 +59,7 @@ class Map():
     def gun_detect(self, direction):
         guns_in_cotact = sprite.spritecollide(self.player, self.gun_spritegroup, True)
         if guns_in_cotact:
-            for gun in guns_in_cotact:
-                highlight = Surface(gun.image.get_size()[0]+50, gun.image.get_size()[1]+50)
-                highligh_rect = highlight.get_rect(center = gun.rect.center)
-                return highlight, 
+            debug("gun collide")
                     
     def wall_detect(self, direction):#returns true when player collids with wall, returns false when player is not colliding with wall
 
@@ -151,7 +149,6 @@ class Map():
         #surface.blit(self.camera.hitbox, self.camera.rect)
         self.wall_spritegroup.draw(surface)
         self.gun_detect("x")
-        draw.rect(surface, "Red", self.gun.rect)
         self.gun_spritegroup.draw(surface)
         self.player_spritegroup.draw(surface)
         

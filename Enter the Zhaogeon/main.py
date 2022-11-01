@@ -59,7 +59,7 @@ class Game:
             # if wall_in_contact: 
             #     string += "Collision with Wall, "
             
-            debug(time.get_ticks()) #debug is always drawn last
+            #debug(time.get_ticks()) #debug is always drawn last
 
             display.update()
             self.clock.tick(60)

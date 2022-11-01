@@ -8,7 +8,9 @@ class Gun(sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
         
-
-        self.image = font.render(str("gun"), True, "White")
+        self.image = Surface([screenx/10, screenx/20])
         self.rect = self.image.get_rect(topleft = pos)
+        self.image.fill("Red")
+        self.text = font.render(str("gun"), True, "White")
+        self.text_rect = self.text.get_rect(topleft = pos)
     
