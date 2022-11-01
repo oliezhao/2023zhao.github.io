@@ -1,4 +1,3 @@
-from typing import no_type_check
 from pygame import *
 
 from settings import *
@@ -8,7 +7,6 @@ from player import *
 from wall import *
 from cursor import *
 from camera import *
-from gun import *
 
 from debug import *
 #the map is created in Main
@@ -31,12 +29,7 @@ class Map():
         #wall
         self.wall_spritegroup = sprite.Group()
         
-        #guns
-        self.gun_spritegroup = sprite.Group()
         
-        #non player sprites
-        self.not_player_spritegroup = sprite.Group()
-
         self.loadmap(level1)
         
     def loadmap(self, level):
@@ -49,20 +42,8 @@ class Map():
                 if object == 2:
                     self.player = Player([collum_i * size, row_i *size], self.player_speed, self.player_spawn_sprite)
                     self.player_spritegroup.add(self.player)
-                if object == 3:
-                    self.gun = Gun([collum_i * size, row_i * size])
-                    self.gun_spritegroup.add(self.gun)
 
-        self.not_player_spritegroup.add(self.wall_spritegroup)
-        self.not_player_spritegroup.add(self.gun_spritegroup)
-
-    def gun_detect(self, direction):
-        guns_in_cotact = sprite.spritecollide(self.player, self.gun_spritegroup, True)
-        if guns_in_cotact:
-            debug("gun collide")
-                    
-    def wall_detect(self, direction):#returns true when player collids with wall, returns false when player is not colliding with wall
-
+    def collision_detect(self, direction):#returns true when player collids with wall, returns false when player is not colliding with wall
         walls_in_contact = sprite.spritecollide(self.player, self.wall_spritegroup, False) #Creates a list of all walls in collision with player
         if walls_in_contact: #if the list is not empty
             for wall in walls_in_contact: #checks for very wall in contact
@@ -118,9 +99,9 @@ class Map():
 
         print(self.camera_detect("x"))
 
-        if not(self.wall_detect("x")) and self.camera_detect("x"):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
-            for object in self.not_player_spritegroup:
-                object.rect.x -= self.player.speed.x
+        if not(self.collision_detect("x")) and self.camera_detect("x"):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
+            for wall in self.wall_spritegroup:
+                wall.rect.x -= self.player.speed.x
 
         if self.camera_detect("x") == "pc": self.player.rect.right = self.camera.rect.left + 1
         if self.camera_detect("x") == "cp": self.player.rect.left = self.camera.rect.right - 1
@@ -129,9 +110,9 @@ class Map():
         #-----Y AXIS MOVEMENT
         self.player.rect.y += self.player.speed.y
 
-        if not(self.wall_detect("y")) and self.camera_detect("y"):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
-            for object in self.not_player_spritegroup:
-                object.rect.y -= self.player.speed.y
+        if not(self.collision_detect("y")) and self.camera_detect("y"):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
+            for wall in self.wall_spritegroup:
+                wall.rect.y -= self.player.speed.y
 
         if self.camera_detect("y") == "p/c": self.player.rect.bottom = self.camera.rect.top + 1
         if self.camera_detect("y") == "c/p": self.player.rect.top = self.camera.rect.bottom - 1
@@ -146,9 +127,7 @@ class Map():
         
         
     def draw(self, surface):
-        #surface.blit(self.camera.hitbox, self.camera.rect)
+        surface.blit(self.camera.hitbox, self.camera.rect)
         self.wall_spritegroup.draw(surface)
-        self.gun_detect("x")
-        self.gun_spritegroup.draw(surface)
         self.player_spritegroup.draw(surface)
         

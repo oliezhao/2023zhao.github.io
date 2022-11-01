@@ -29,7 +29,9 @@ class Player(sprite.Sprite):
         self.cursor =  Cursor()
 
         self.roll_timer = 0
-        self.roll_colldown = 0
+
+    def get_time(self):
+        return time.get_ticks()
 
     def input_detect(self):
         keys = key.get_pressed()
@@ -49,17 +51,13 @@ class Player(sprite.Sprite):
                     if keys[K_w]: self.move_direction.y = -1 #player is moving up (neg y axis)
                     if keys[K_s]: self.move_direction.y = 1 #player is moving down (pos y axis)
                 
-                if keys[K_SPACE] and (time.get_ticks() - self.roll_colldown >= 200):#player rolls, only detects when player is not rolling
+                if keys[K_SPACE]:
                     self.roll_timer = time.get_ticks()
                     self.invinc = True
-                    self.state.append("rolling")
-                    self.move_direction.x *= 0.5
-                    self.move_direction.y *= 0.5
+                    self.state = "rolling"
         
-        if "rolling" in self.state:
-            if time.get_ticks() - self.roll_timer >= 400:
-                self.state.remove("rolling")
-                self.roll_colldown = time.get_ticks()
+        if self.state == "rolling":
+            if self.get_time() - self.roll_timer >= 200: self.state = ""
         # else: #if no keys are being pressed player is not moving
         #     self.move_direction = (0,0)
 
@@ -112,13 +110,12 @@ class Player(sprite.Sprite):
             if self.face_direction == "S": self.sprite = "graphics/PS_nogun-8x12.png"
             if self.face_direction == "SE":self.sprite = "graphics/PSE_nogun-8x12.png"
             if self.face_direction == "SW":self.sprite = "graphics/PSW_nogun-8x12.png"
-            self.image = image.load(self.sprite).convert_alpha()
-            self.image = transform.scale(self.image, (screenx * 8/256, screeny * 12/144))
         
         if "rolling" in self.state:
             self.image.fill("White")
 
-
+        self.image = image.load(self.sprite).convert_alpha()
+        self.image = transform.scale(self.image, (screenx * 8/256, screeny * 12/144))
         
     def update(self, cursor_pos):
         #cursor pos should be same as get.mouse_pos()
