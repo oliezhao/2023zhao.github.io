@@ -8,8 +8,6 @@ class Player(sprite.Sprite):
     def __init__(self, position, speed, spawn_sprite):
         super().__init__()
 
-        self.clock = 0
-
         self.sprite = spawn_sprite
 
         self.image = image.load(self.sprite).convert_alpha()
@@ -29,6 +27,7 @@ class Player(sprite.Sprite):
 
         self.cursor =  Cursor()
 
+        self.clock = 0
         self.roll_timer = 0
         self.roll_cooldown_timer = -1000
 
@@ -48,8 +47,9 @@ class Player(sprite.Sprite):
                 if keys[K_s]: self.move_direction.y = 1 #player is moving down (pos y axis)
             
             if keys[K_SPACE] and self.move_direction != (0,0) and self.clock - self.roll_cooldown_timer >= 200:
-                #self.apply_states("rolling")
-                
+                self.roll_cooldown_timer = self.clock
+                self.states.append("rolling")
+                self.states.append("nodmg")
                 self.roll_timer = self.clock
                 self.invinc = True
                 self.states.append("rolling")
@@ -68,12 +68,11 @@ class Player(sprite.Sprite):
                 self.states.remove("rolling") #remove rooling status
                 self.states.remove("nodmg") #remove no damage status
 
-    # def apply_states(self, effect):
-    #     if effect == "rolling": #if appling rolling status
-    #         if "rolling" not in self.states: 
-    #             self.states.append("rolling")
-    #             self.states.append("nodmg")
-    #         else:
+    def apply_states(self, effect):
+        if effect == "rolling": #if appling rolling status
+            
+            
+
                 
                 
 
@@ -148,8 +147,8 @@ class Player(sprite.Sprite):
         self.face_direction_calc(cursor_pos)
         self.speed_calc()
         
-        # for state in self.states:
-        #     self.apply_states(state)
+        for state in self.states:
+             self.apply_states(state)
 
         self.animate()
         
