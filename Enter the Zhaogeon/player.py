@@ -22,59 +22,45 @@ class Player(sprite.Sprite):
         self.face_direction = "" #string value to calculates what direction the player is facing
         self.move_direction = Vector2(0,0) #indicates the direction and ratio of movement speed relative to constatn speed
         
-        self.states = [] #array that stores 
+        self.state = []
+        #self.state = "" #change to array so player can have multiple states
         self.invinc = False
 
         self.cursor =  Cursor()
 
         self.clock = 0
         self.roll_timer = 0
-        self.roll_cooldown_timer = -1000
+
+    def get_time(self):
+        return time.get_ticks()
 
     def input_detect(self):
         keys = key.get_pressed()
-        if "rolling" not in self.states:#if player is not rolling
-            if not(keys[K_a] or keys[K_d]) or keys[K_a] and keys[K_d]: #if player is pressing both x-axis buttons,
-                self.move_direction.x = 0 #player does not move
-            else:
-                if keys[K_d]: self.move_direction.x = 1 #player is moving to the right (pos x axis)
-                if keys[K_a]: self.move_direction.x = -1 #player is moving to the left (neg x axis)
-            
-            if (not(keys[K_w] or keys[K_s])) or (keys[K_w] and keys[K_s]): #if both y-axis buttons are pressed
-                    self.move_direction.y = 0 # no movement in y axis
-            else:
-                if keys[K_w]: self.move_direction.y = -1 #player is moving up (neg y axis)
-                if keys[K_s]: self.move_direction.y = 1 #player is moving down (pos y axis)
-            
-            if keys[K_SPACE] and self.move_direction != (0,0) and self.clock - self.roll_cooldown_timer >= 200:
-                self.roll_cooldown_timer = self.clock
-                self.states.append("rolling")
-                self.states.append("nodmg")
-                self.roll_timer = self.clock
-                self.invinc = True
-                self.states.append("rolling")
-    
-        if "rolling" in self.states:#if player is rolling
-            print(self.clock - self.roll_cooldown_timer)
-            if "nodmg" not in self.states:#give nodmg status ONCE
-                self.states.append("nodmg")
-            
-            if self.clock - self.roll_timer >= 240: #applies slower speed for last 5 frames or 0.08 seconds of roll
-                self.move_direction.x *= 0.5
-                self.move_direction.y *= 0.5
+        #checks if keys are being pressed
 
-            if self.clock - self.roll_timer >= 320:#rolling lasts for 20 frames or 0.32 seconds
-                self.roll_cooldown_timer = self.clock#starts roll cooldown timer to ensure no rool spaming
-                self.states.remove("rolling") #remove rooling status
-                self.states.remove("nodmg") #remove no damage status
-
-    def apply_states(self, effect):
-        if effect == "rolling": #if appling rolling status
-            
-            
-
+        if keys:
+            if "rolling" not in self.state:#if player is not rolling
+                if (not(keys[K_a] or keys[K_d])) or (keys[K_a] and keys[K_d]): #if player is pressing both x-axis buttons,
+                    self.move_direction.x = 0 #player does not move
+                else:
+                    if keys[K_d]: self.move_direction.x = 1 #player is moving to the right (pos x axis)
+                    if keys[K_a]: self.move_direction.x = -1 #player is moving to the left (neg x axis)
                 
+                if (not(keys[K_w] or keys[K_s])) or (keys[K_w] and keys[K_s]): #if both y-axis buttons are pressed
+                     self.move_direction.y = 0 # no movement in y axis
+                else:
+                    if keys[K_w]: self.move_direction.y = -1 #player is moving up (neg y axis)
+                    if keys[K_s]: self.move_direction.y = 1 #player is moving down (pos y axis)
                 
+                if keys[K_SPACE]:
+                    self.roll_timer = time.get_ticks()
+                    self.invinc = True
+                    self.state = "rolling"
+        
+        if self.state == "rolling":
+            if self.get_time() - self.roll_timer >= 200: self.state = ""
+        # else: #if no keys are being pressed player is not moving
+        #     self.move_direction = (0,0)
 
     def speed_calc(self):
 
@@ -120,20 +106,19 @@ class Player(sprite.Sprite):
         #instead of directly changing the player sprite to an image. Change a new variable, self.face_direction and have animate() calculate which sprite to display
 
     def animate(self):
-        if "rolling" not in self.states:
+        if self.state != "rolling":
             if self.face_direction == "N": self.sprite = "graphics/PN_nogun-8x12.png"
             if self.face_direction == "NW":self.sprite = "graphics/PNW_nogun-8x12.png"
             if self.face_direction == "NE":self.sprite = "graphics/PNE_nogun-8x12.png"
             if self.face_direction == "S": self.sprite = "graphics/PS_nogun-8x12.png"
             if self.face_direction == "SE":self.sprite = "graphics/PSE_nogun-8x12.png"
             if self.face_direction == "SW":self.sprite = "graphics/PSW_nogun-8x12.png"
-
-            self.image = image.load(self.sprite).convert_alpha()
-            self.image = transform.scale(self.image, (screenx * 8/256, screeny * 12/144))
         
-        if "rolling" in self.states:
+        if "rolling" in self.state:
             self.image.fill("White")
 
+        self.image = image.load(self.sprite).convert_alpha()
+        self.image = transform.scale(self.image, (screenx * 8/256, screeny * 12/144))
         
     def update(self, cursor_pos):
         #cursor pos should be same as get.mouse_pos()
