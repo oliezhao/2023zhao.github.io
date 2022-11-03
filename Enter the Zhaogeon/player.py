@@ -113,27 +113,23 @@ class Player(sprite.Sprite):
             if self.face_direction == "S": self.sprite = "graphics/PS_nogun-8x12.png"
             if self.face_direction == "SE":self.sprite = "graphics/PSE_nogun-8x12.png"
             if self.face_direction == "SW":self.sprite = "graphics/PSW_nogun-8x12.png"
-        
+            self.image = image.load(self.sprite).convert_alpha()
+            self.image = transform.scale(self.image, (screenx * 8/256, screeny * 12/144))
+            self.image = image.load(self.sprite).convert_alpha()
+            self.image = transform.scale(self.image, (screenx * 8/256, screeny * 12/144))
+
         if "rolling" in self.state:
             self.image.fill("White")
 
-        self.image = image.load(self.sprite).convert_alpha()
-        self.image = transform.scale(self.image, (screenx * 8/256, screeny * 12/144))
+
         
     def update(self, cursor_pos):
         #cursor pos should be same as get.mouse_pos()
-        self.clock = time.get_ticks()
-
-
-
         self.input_detect()
         
         
         self.face_direction_calc(cursor_pos)
         self.speed_calc()
-        
-        for state in self.states:
-             self.apply_states(state)
 
         self.animate()
         
