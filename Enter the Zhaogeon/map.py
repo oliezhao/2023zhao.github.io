@@ -4,6 +4,7 @@ from settings import *
 from level import *
 
 from player import *
+from enemy import *
 from wall import *
 from cursor import *
 from camera import *
@@ -26,22 +27,42 @@ class Map():
         self.player_speed = int(screenx/200)
         self.player_spritegroup = sprite.GroupSingle()
         
+        self.enemy_spritegroup = sprite.Group()
+
         #wall
         self.wall_spritegroup = sprite.Group()
         
+        self.bullet_spritegroup = sprite.Group()
+
+        self.notp_spritegroup = sprite.Group()
         
         self.loadmap(level1)
-        
+
+    # def pe_angle(self):
+    #     for enemy in self.enemy_spritegroup():
+    #         dx = 
+
     def loadmap(self, level):
-        size = int( 15 * (screenx/256) )
+        size = int( 20 * (screenx/256) )
         for row_i, row in enumerate(level):
             for collum_i, object in enumerate(row):
                 if object == 1:
-                    self.wall = Wall([collum_i * size, row_i * size])
+                    self.wall = Wall(size, [collum_i * size, row_i * size])
                     self.wall_spritegroup.add(self.wall)
                 if object == 2:
                     self.player = Player([collum_i * size, row_i *size], self.player_speed, self.player_spawn_sprite)
                     self.player_spritegroup.add(self.player)
+                if object == 3:
+                    self.enemy = Enemy([collum_i * size, row_i * size])
+                    self.enemy_spritegroup.add(self.enemy)
+
+        self.notp_spritegroup.add(self.wall_spritegroup)
+        self.notp_spritegroup.add(self.enemy_spritegroup)
+    
+    def bullet_detect(self):
+        for bullet in self.player.bullet_spritegroup:
+            if sprite.spritecollide(bullet, self.wall_spritegroup, False):
+                bullet.kill()
 
     def collision_detect(self, direction):#returns true when player collids with wall, returns false when player is not colliding with wall
         walls_in_contact = sprite.spritecollide(self.player, self.wall_spritegroup, False) #Creates a list of all walls in collision with player
@@ -96,12 +117,11 @@ class Map():
 
         #---X AXIS MOVEMENT
         self.player.rect.x += self.player.speed.x #moves players
-
-        print(self.camera_detect("x"))
-
+        for bullet in self.bullet_spritegroup: bullet.update("x")
+            
         if not(self.collision_detect("x")) and self.camera_detect("x"):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
-            for wall in self.wall_spritegroup:
-                wall.rect.x -= self.player.speed.x
+            for object in self.notp_spritegroup:
+                object.rect.x -= self.player.speed.x
 
         if self.camera_detect("x") == "pc": self.player.rect.right = self.camera.rect.left + 1
         if self.camera_detect("x") == "cp": self.player.rect.left = self.camera.rect.right - 1
@@ -109,10 +129,11 @@ class Map():
 
         #-----Y AXIS MOVEMENT
         self.player.rect.y += self.player.speed.y
+        for bullet in self.bullet_spritegroup: bullet.update("y")
 
         if not(self.collision_detect("y")) and self.camera_detect("y"):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
-            for wall in self.wall_spritegroup:
-                wall.rect.y -= self.player.speed.y
+            for object in self.notp_spritegroup:
+                object.rect.y -= self.player.speed.y
 
         if self.camera_detect("y") == "p/c": self.player.rect.bottom = self.camera.rect.top + 1
         if self.camera_detect("y") == "c/p": self.player.rect.top = self.camera.rect.bottom - 1
@@ -121,13 +142,34 @@ class Map():
     
     def update(self, cursor_pos):
         #passes cursor position to player
-        print(self.player.move_direction)
-        self.move()
+
         self.player.update(cursor_pos)
-        
-        
+        self.bullet_detect()
+        self.move()
+
+        self.enemy.shoot(self.player.rect.center)
+
+        for bullet in self.player.bullet_spritegroup:
+            self.bullet_spritegroup.add(bullet)
+        for bullet in self.enemy.bullet_spritegroup:
+            self.bullet_spritegroup.add(bullet)
+        for bullet in self.bullet_spritegroup:
+            self.notp_spritegroup.add(bullet)
+
     def draw(self, surface):
-        surface.blit(self.camera.hitbox, self.camera.rect)
+        
+        
+
+        size = int( 20 * (screenx/256) )
+        for wall in self.wall_spritegroup:
+            image = Surface((size, size * 3/5))
+            image.fill("Black")
+            rect = image.get_rect(topleft = wall.rect.bottomleft)
+            draw.rect(surface,"Black" ,rect)
+
         self.wall_spritegroup.draw(surface)
+        self.enemy_spritegroup.draw(surface)
         self.player_spritegroup.draw(surface)
+        self.bullet_spritegroup.draw(surface)
+
         

@@ -16,7 +16,7 @@ class Game:
         self.clock = time.Clock()
 
         
-        #--Object Creation--
+        #--Object Creation--s
         #decalres an Instance of Cursor
         self.cursor = Cursor()
         self.UI_spritelist = sprite.Group(self.cursor)
@@ -26,7 +26,7 @@ class Game:
         self.map = Map()
         
     def run(self):
-        
+    
         #--GAME LOOP--
         while True:
             
@@ -48,7 +48,7 @@ class Game:
             self.map.update(self.cursor.rect.center)
             
             #--Display order
-            self.screen.fill('black')
+            self.screen.fill("#ffe4e1")
             self.map.draw(self.screen)
             self.UI_spritelist.draw(self.screen)
             
@@ -59,7 +59,7 @@ class Game:
             # if wall_in_contact: 
             #     string += "Collision with Wall, "
             
-            string = str(self.map.player.status)
+            string = str(self.map.player.states)
 
             debug(string) #debug is always drawn last
 
