@@ -81,7 +81,7 @@ class Map():
                     return "c/p"
                 elif self.player.rect.bottom < self.camera.rect.top:  #player is above cameraiu hitbox
                     return "p/c"
-                    
+        
         else: #if player is colliding with camera hitbox
             return False
 
@@ -96,6 +96,8 @@ class Map():
 
         #---X AXIS MOVEMENT
         self.player.rect.x += self.player.speed.x #moves players
+
+        print(self.camera_detect("x"))
 
         if not(self.collision_detect("x")) and self.camera_detect("x"):#if the player is not colliding with wall AND player is out of camera hitbox move all walls
             for wall in self.wall_spritegroup:
@@ -119,6 +121,7 @@ class Map():
     
     def update(self, cursor_pos):
         #passes cursor position to player
+        print(self.player.move_direction)
         self.move()
         self.player.update(cursor_pos)
         
