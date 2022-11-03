@@ -59,7 +59,7 @@ class Game:
             # if wall_in_contact: 
             #     string += "Collision with Wall, "
             
-            string = str(self.map.player.status)
+            string = str(self.map.player.states)
 
             debug(string) #debug is always drawn last
 
