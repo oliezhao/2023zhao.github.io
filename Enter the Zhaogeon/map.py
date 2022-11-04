@@ -33,7 +33,8 @@ class Map():
         #wall
         self.wall_spritegroup = sprite.Group()
         
-        
+        self.notp_spritegroup = sprite.Group()
+
         self.loadmap(level1)
         
     def loadmap(self, level):
