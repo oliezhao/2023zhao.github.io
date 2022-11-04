@@ -86,17 +86,18 @@ class Map():
     def camera_detect(self, direction):#returns a value if player is outside camera hitbox, returns false is player is within.
         
         if not(sprite.collide_rect(self.player, self.camera)): #if player is not colliding with camera hitbox
-            if direction == "x":
-                if self.player.rect.right < self.camera.rect.left: #detects if the player is to the left or right of the camera hitbox
-                    return "pc"
-                elif self.player.rect.left > self.camera.rect.right: 
-                    return "cp"
+            for wall in self.wall_spritegroup:
+                if direction == "x":
+                    if self.player.rect.right < self.camera.rect.left: #detects if the player is to the left or right of the camera hitbox
+                        return "pc"
+                    elif self.player.rect.left > self.camera.rect.right: 
+                        return "cp"
 
-            if direction == "y":
-                if self.player.rect.top > self.camera.rect.bottom: #player is underneath camera hitbox
-                    return "c/p"
-                elif self.player.rect.bottom < self.camera.rect.top:  #player is above cameraiu hitbox
-                    return "p/c"
+                if direction == "y":
+                    if self.player.rect.top > self.camera.rect.bottom: #player is underneath camera hitbox
+                        return "c/p"
+                    elif self.player.rect.bottom < self.camera.rect.top:  #player is above cameraiu hitbox
+                        return "p/c"
         
         else: #if player is colliding with camera hitbox
             return False
@@ -137,7 +138,8 @@ class Map():
     
     def update(self, cursor_pos):
         #passes cursor position to player
-
+        print(self.player.speed)
+        self.move()
         self.player.update(cursor_pos)
         self.bullet_detect()
         self.move()

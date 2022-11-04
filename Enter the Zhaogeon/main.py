@@ -43,7 +43,8 @@ class Game:
             
             #moves cursor sprite to mouse location
             self.cursor.update()
-    
+            
+            #spawns player on map
             #runs player.update
             self.map.update(self.cursor.rect.center)
             
@@ -51,16 +52,13 @@ class Game:
             self.screen.fill("#ffe4e1")
             self.map.draw(self.screen)
             self.UI_spritelist.draw(self.screen)
-            
             #debug is always drawn last
-            # string = ""
-            # if not(self.map.camera_detect): string += "Out of bounds, "
-            # wall_in_contact = sprite.spritecollide(self.map.player, self.map.wall_spritegroup, False)
-            # if wall_in_contact: 
-            #     string += "Collision with Wall, "
+            string = ""
+            if not(self.map.camera_detect): string += "Out of bounds, "
+            wall_in_contact = sprite.spritecollide(self.map.player, self.map.wall_spritegroup, False)
+            if wall_in_contact: 
+                string += "Collision with Wall, "
             
-            string = str(self.map.player.states)
-
             debug(string) #debug is always drawn last
 
             display.update()

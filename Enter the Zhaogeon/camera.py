@@ -7,5 +7,5 @@ class Camra(sprite.Sprite):
         super().__init__()
         
         self.hitbox = Surface([int(screenx * 6/10),int(screeny * 4/10)])
-        #self.hitbox.fill("Green")
+        self.hitbox.fill("Green")
         self.rect = self.hitbox.get_rect(topleft = (int(screenx * 2/10),int(screeny*3/10)))
