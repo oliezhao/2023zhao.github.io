@@ -48,7 +48,7 @@ class Game:
             self.map.update(self.cursor.rect.center)
             
             #--Display order
-            self.screen.fill("#ffe4e1")
+            self.screen.fill('black')
             self.map.draw(self.screen)
             self.UI_spritelist.draw(self.screen)
             
@@ -59,7 +59,7 @@ class Game:
             # if wall_in_contact: 
             #     string += "Collision with Wall, "
             
-            string = str(self.map.player.states)
+            string = str(self.map.player.status)
 
             debug(string) #debug is always drawn last
 
