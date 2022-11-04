@@ -16,7 +16,7 @@ class Game:
         self.clock = time.Clock()
 
         
-        #--Object Creation--s
+        #--Object Creation--
         #decalres an Instance of Cursor
         self.cursor = Cursor()
         self.UI_spritelist = sprite.Group(self.cursor)
@@ -37,7 +37,7 @@ class Game:
         self.defeat_image = transform.scale(self.victory_image, (screenx, screeny))
 
     def run(self):
-    
+        
         #--GAME LOOP--
         while True:
             
@@ -67,8 +67,23 @@ class Game:
             
             #moves cursor sprite to mouse location
             self.cursor.update()
-            if self.gamestate == "main menu":
-                self.screen.blit(self.main_menu_image, (0,0))
+    
+            #runs player.update
+            self.map.update(self.cursor.rect.center)
+            
+            #--Display order
+            self.screen.fill('black')
+            self.map.draw(self.screen)
+            self.UI_spritelist.draw(self.screen)
+            
+            #debug is always drawn last
+            # string = ""
+            # if not(self.map.camera_detect): string += "Out of bounds, "
+            # wall_in_contact = sprite.spritecollide(self.map.player, self.map.wall_spritegroup, False)
+            # if wall_in_contact: 
+            #     string += "Collision with Wall, "
+            
+            string = str(self.map.player.status)
 
             if self.gamestate == "game":
                 #runs player.update
