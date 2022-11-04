@@ -64,7 +64,7 @@ class Player(sprite.Sprite):
                 if keys[K_w]: self.move_direction.y = -1 #player is moving up (neg y axis)
                 if keys[K_s]: self.move_direction.y = 1 #player is moving down (pos y axis)
             
-            if (keys[K_SPACE]) and self.move_direction != 0:
+            if keys[K_SPACE] and self.move_direction.xy != (0,0):
                 self.roll_timer = time_
                 self.invinc = True
                 self.states.append("rolling")
