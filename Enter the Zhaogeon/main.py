@@ -11,19 +11,20 @@ from cursor import *
 class Game:
     def __init__(self):
         super().__init__()
+        
         display.set_caption("Dogwater")
         self.screen = display.set_mode(windowsize)
         self.clock = time.Clock()
 
         
-        #--Object Creation--
-        #decalres an Instance of Cursor
-        self.cursor = Cursor()
-        self.UI_spritelist = sprite.Group(self.cursor)
+        # #--Object Creation--
+        # #decalres an Instance of Cursor
+        # self.cursor = Cursor()
+        # self.UI_spritelist = sprite.Group(self.cursor)
         
-        #declares an Instance of Map
-        #an Instance of Player is declared in Map
-        self.map = Map()
+        # #declares an Instance of Map
+        # #an Instance of Player is declared in Map
+        # self.map = Map()
         
     def run(self):
         
@@ -39,29 +40,29 @@ class Game:
                     quit()
                     exit()
                     
-            #--Game Logic
+            # #--Game Logic
             
-            #moves cursor sprite to mouse location
-            self.cursor.update()
+            # #moves cursor sprite to mouse location
+            # self.cursor.update()
     
-            #runs player.update
-            self.map.update(self.cursor.rect.center)
+            # #runs player.update
+            # self.map.update(self.cursor.rect.center)
             
-            #--Display order
-            self.screen.fill("#ffe4e1")
-            self.map.draw(self.screen)
-            self.UI_spritelist.draw(self.screen)
+            # #--Display order
+            # self.screen.fill("#ffe4e1")
+            # self.map.draw(self.screen)
+            # self.UI_spritelist.draw(self.screen)
             
-            #debug is always drawn last
-            # string = ""
-            # if not(self.map.camera_detect): string += "Out of bounds, "
-            # wall_in_contact = sprite.spritecollide(self.map.player, self.map.wall_spritegroup, False)
-            # if wall_in_contact: 
-            #     string += "Collision with Wall, "
+            # #debug is always drawn last
+            # # string = ""
+            # # if not(self.map.camera_detect): string += "Out of bounds, "
+            # # wall_in_contact = sprite.spritecollide(self.map.player, self.map.wall_spritegroup, False)
+            # # if wall_in_contact: 
+            # #     string += "Collision with Wall, "
             
-            string = str(self.map.player.states)
+            # string = str(self.map.player.states)
 
-            debug(string) #debug is always drawn last
+            # debug(string) #debug is always drawn last
 
             display.update()
             self.clock.tick(60)
