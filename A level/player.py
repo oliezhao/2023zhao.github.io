@@ -18,7 +18,7 @@ class Player(sprite.Sprite):
         self.row = 1
         self.column = 1
     
-        self.speed_constant = 5
+        self.speed_constant = 1 * scale
     
         self.speed = self.speed_constant
         self.move_direction = Vector2(0,0)#---the vector direction of the character. 0 = not movement. 1 or -1 means moving.
@@ -101,10 +101,17 @@ class Player(sprite.Sprite):
                 if self.move_direction.x < 0: self.column = 1
                 if self.move_direction.x == 0: self.column = 2
                 if self.move_direction.x > 0: self.column = 3
-            if self.move_direction.y < 0:
+            elif self.move_direction.y < 0:
                 if self.move_direction.x < 0: self.column = 4
                 if self.move_direction.x == 0: self.column = 5
                 if self.move_direction.x > 0: self.column = 6
+            elif self.move_direction.y == 0:
+                if pca > 0:
+                    if self.move_direction.x < 0: self.column = 1
+                    else: self.column = 3
+                else:
+                    if self.move_direction.x < 0: self.column = 4
+                    else: self.column = self.column = 6
             
             if self.clock - self.roll_timer < 4: self.row = 2
             elif self.clock - self.roll_timer < 8: self.row = 3

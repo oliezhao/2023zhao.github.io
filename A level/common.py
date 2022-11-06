@@ -2,7 +2,7 @@ from pygame import *
 from math import atan2, degrees
 
 aspect_ratio = (16,9)
-screenx = 1000
+screenx = 1920
 screeny = screenx * (aspect_ratio[1]/aspect_ratio[0])
 
 scale = screenx/256
