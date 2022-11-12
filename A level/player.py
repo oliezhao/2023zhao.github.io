@@ -2,6 +2,7 @@ from pygame import *
 
 from setting import *
 from common import *
+from bullet import *
 
 class Player(sprite.Sprite):
     def __init__(self, pos):
@@ -14,7 +15,8 @@ class Player(sprite.Sprite):
         #---timers
         self.timer = 0
         self.roll_timer = -100
-        
+        self.shoot_timer = -1000
+
         self.row = 1
         self.column = 1
     
@@ -29,6 +31,8 @@ class Player(sprite.Sprite):
         self.health = 6
         self.states = []
         
+        self.bullets = sprite.Group()
+
     def input(self):
         keys = key.get_pressed()
         buttons = mouse.get_pressed()
@@ -46,12 +50,22 @@ class Player(sprite.Sprite):
             else:
                 if keys[K_w]: self.move_direction.y = 1 #player is moving up (neg y axis)
                 if keys[K_s]: self.move_direction.y = -1 #player is moving down (pos y axis)
+            
+            if buttons[0] and self.clock - self.shoot_timer > 1:
+                print("shoot")
+                self.shoot()
 
         #---roll--
         if "rolling" not in self.states:
             if self.move_direction.xy != (0,0) and keys[K_SPACE]:
                 self.apply_status("rolling")
-            
+    
+    def shoot(self):
+        self.shoot_timer = self.clock
+        self.bullet = Bullet("player", self.rect.center)
+        self.bullet.move(2, get_angle(self.rect.center, mouse.get_pos()))
+        self.bullets.add(self.bullet)
+
     def velo_calc(self): #assigns values to self.velocity
         if abs(self.move_direction.x) == 1 and abs(self.move_direction.y) == 1:
             self.move_direction.x *= 0.7
@@ -73,7 +87,7 @@ class Player(sprite.Sprite):
     def timer_check(self):
         if "rolling" in self.states:
             if self.clock - self.roll_timer == 12:
-                self.speed = self.speed_constant
+                self.speed = self.speed_constant * 1.5
             if self.clock - self.roll_timer == 30:
                 self.speed = self.speed_constant * 0.5
                 self.states.remove("nodmg")
@@ -83,7 +97,7 @@ class Player(sprite.Sprite):
 
     def animate(self):
         
-        pca = get_angle(self.rect, mouse.get_pos())
+        pca = get_angle(self.rect.center, mouse.get_pos())
         
         if "rolling" not in self.states:
             self.row = 1
@@ -128,26 +142,21 @@ class Player(sprite.Sprite):
     def load_image(self, row, column):
         self.image = spritesheet_loader("graphics/spritesheets/PlayerSS.png", row, column, 1)
         self.image_rect = self.image.get_rect(topleft = self.rect.topleft)
-        
-    def print(self, string):
-        print(string)
     
     def move(self, direction):
-        if direction == "x": self.rect.x += self.velocity.x
-        if direction == "y": self.rect.y -= self.velocity.y
+        if direction == "x": self.rect.x += round(self.velocity.x)
+        if direction == "y": self.rect.y -= round(self.velocity.y)
     
     def update(self):
         self.clock += 1
         
-        self.debugmsg = str(self.velocity) + str(self.states)
+        self.debugmsg = "running"
                 
         self.input()
         self.velo_calc()
         self.timer_check()
-        
-        self.move("x")
-        self.move("y")
+
         self.animate()
         self.load_image(self.row, self. column)
         
-        
+ 
