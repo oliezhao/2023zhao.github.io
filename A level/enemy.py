@@ -32,7 +32,7 @@ class Enemy(sprite.Sprite):
         self.bullets.add(self.bullet)
     
     def update(self, player_rect_center):
-        self.look(player_rect_center)#
+        self.look(player_rect_center)
         if self.clock - self.shoot_timer > 50:
             self.shoot(player_rect_center)
         

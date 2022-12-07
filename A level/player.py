@@ -1,6 +1,5 @@
 from pygame import *
 
-from setting import *
 from common import *
 from bullet import *
 
@@ -15,7 +14,7 @@ class Player(sprite.Sprite):
         #---timers
         self.timer = 0
         self.roll_timer = -100
-        self.shoot_timer = -1000
+        self.shoot_timer = 0
 
         self.row = 1
         self.column = 1
@@ -51,7 +50,7 @@ class Player(sprite.Sprite):
                 if keys[K_w]: self.move_direction.y = 1 #player is moving up (neg y axis)
                 if keys[K_s]: self.move_direction.y = -1 #player is moving down (pos y axis)
             
-            if buttons[0] and self.clock - self.shoot_timer > 1:
+            if buttons[0] and self.clock - self.shoot_timer > 10:
                 print("shoot")
                 self.shoot()
 
@@ -63,7 +62,7 @@ class Player(sprite.Sprite):
     def shoot(self):
         self.shoot_timer = self.clock
         self.bullet = Bullet("player", self.rect.center)
-        self.bullet.move(2, get_angle(self.rect.center, mouse.get_pos()))
+        self.bullet.set_trajectory(2, get_angle(self.rect.center, mouse.get_pos()))
         self.bullets.add(self.bullet)
 
     def velo_calc(self): #assigns values to self.velocity

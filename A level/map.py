@@ -18,7 +18,7 @@ class Map():
         self.nonpsprites= sprite.Group()
         self.sprites = sprite.Group()
         self.player_spritegroup = sprite.GroupSingle()
-        self.bullets = sprite.GroupSingle()
+        self.bullets = sprite.Group()
         self.enemies = sprite.Group()
 
         self.hitboxes = sprite.Group()
@@ -66,6 +66,8 @@ class Map():
                     self.player.rect.top = self.camera.rect.bottom - 1
 
             return False
+        else:
+            return True
     
     def wall_collision(self, direction):
         hitboxes_in_contact = sprite.spritecollide(self.player, self.hitboxes, False)
@@ -89,7 +91,7 @@ class Map():
         screen = display.get_surface()
         self.tile_sg_l1.draw(screen)
         self.player_spritegroup.draw(screen)
-        self.bullets.draw(screen)
+        self.player.bullets.draw(screen)
         self.tile_sg_l2.draw(screen)
         
         draw.rect(screen, "Green", self.player.rect, 2)
@@ -100,8 +102,7 @@ class Map():
 
         self.player.move("x")
         for bullet in self.bullets:
-            bullet.rect.x += bullet.speed * cos(bullet.angle)
-
+            bullet.move("x")
         if not(self.wall_collision("x")) and not(self.withinbonds("x")):
             for sprite in self.nonpsprites:
                 sprite.rect.x -= round(self.player.velocity.x)
@@ -109,7 +110,7 @@ class Map():
 
         self.player.move("y")
         for bullet in self.bullets:
-            bullet.rect.y -= bullet.speed * sin(bullet.angle)
+            bullet.move("y")
 
         if not(self.wall_collision("y")) and not(self.withinbonds("y")):  
             for sprite in self.nonpsprites:
@@ -131,6 +132,7 @@ class Map():
 
         for bullet in self.player.bullets:
             self.bullets.add(bullet)
+            print(bullet)
 
         for bullet in self.bullets:
             self.nonpsprites.add(bullet)
@@ -140,13 +142,22 @@ class Map():
             self.nonpsprites.add(tile)
             self.sprites.add(tile)
 
+        for enemy in self.enemies:
+            self.nonpsprites.add(tile)
+            self.sprites.add(tile)
+        
         #---Logic
         self.player_spritegroup.update()
-        for tile in self.tiles:
-            sprite.spritecollide(tile, self.bullets, True)
+        self.bullets.update()
+        
+        for bullet in self.bullets:
+            if sprite.spritecollide(bullet, self.hitboxes, False):
+                bullet.kill()
+            
+            
         self.move()
 
         #---Draw
         self.draw()
 
-        self.debugmsg = str(self.player.clock - self.player.shoot_timer)
+        self.debugmsg = str(self.player.bullets) + str(self.bullets)

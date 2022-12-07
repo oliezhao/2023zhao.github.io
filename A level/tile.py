@@ -3,6 +3,8 @@ from common import *
 
 from hitbox import *
 
+list = [00, 10, 20, 30, 40, 19, 22, 50, 21]
+
 class Tile(sprite.Sprite):
     def __init__(self, object, pos):
         super().__init__()
@@ -21,7 +23,6 @@ class Tile(sprite.Sprite):
         elif object == 32: self.image = spritesheet_loader("graphics/spritesheets/WallSS.png", 3, 1, size)
         elif object == 34: self.image = spritesheet_loader("graphics/spritesheets/WallSS.png", 3, 3, size)
         elif object == 19: self.image = spritesheet_loader("graphics/spritesheets/WallSS.png", 2, 4, size)
-        elif object == 22: self.image = spritesheet_loader("graphics/spritesheets/WallSS.png", 2, 5, size)
         elif object == 35: self.image = spritesheet_loader("graphics/spritesheets/WallSS.png", 3, 4, size)
         elif object == 36: self.image = spritesheet_loader("graphics/spritesheets/WallSS.png", 3, 5, size)
         elif object == 48: self.image = spritesheet_loader("graphics/spritesheets/WallSS.png", 4, 1, size)
@@ -33,8 +34,10 @@ class Tile(sprite.Sprite):
         
         if object == 48:
             self.hitbox = Hitox(self.rect.topleft[0], self.rect.topleft[1], 16*scale, 6 *scale)
-        else:
+        elif object in list:
             self.hitbox = Hitox(self.rect.midleft[0], self.rect.midleft[1], 16*scale, 8 *scale)
-    
+        else:
+            self.hitbox = Hitox(self.rect.topleft[0], self.rect.topleft[1], 16 * scale, 16 * scale)
+        
     def update(self):
         self.hitbox.update(self.rect.midleft)
