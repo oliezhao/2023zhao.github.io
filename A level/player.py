@@ -51,7 +51,6 @@ class Player(sprite.Sprite):
                 if keys[K_s]: self.move_direction.y = -1 #player is moving down (pos y axis)
             
             if buttons[0] and self.clock - self.shoot_timer > 10:
-                print("shoot")
                 self.shoot()
 
         #---roll--
@@ -140,7 +139,8 @@ class Player(sprite.Sprite):
         
     def load_image(self, row, column):
         self.image = spritesheet_loader("graphics/spritesheets/PlayerSS.png", row, column, 1)
-        self.image_rect = self.image.get_rect(topleft = self.rect.topleft)
+        self.image_rect = self.image.get_rect(center = self.rect.center)
+        print(self.image_rect.center, self.rect.center)
     
     def move(self, direction):
         if direction == "x": self.rect.x += round(self.velocity.x)

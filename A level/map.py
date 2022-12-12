@@ -121,7 +121,6 @@ class Map():
 
         #--Sprite Group
         for hitbox in self.hitboxes:
-            self.nonpsprites.add(hitbox)
             self.sprites.add(hitbox)
 
         for tile in self.tile_sg_l1:
@@ -132,7 +131,6 @@ class Map():
 
         for bullet in self.player.bullets:
             self.bullets.add(bullet)
-            print(bullet)
 
         for bullet in self.bullets:
             self.nonpsprites.add(bullet)
