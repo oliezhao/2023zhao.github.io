@@ -1,0 +1,98 @@
+{ "frames": {
+   "Art 0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "sourceSize": { "w": 96, "h": 16 },
+    "duration": 100
+   },
+   "Art 1.aseprite": {
+    "frame": { "x": 0, "y": 16, "w": 96, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "sourceSize": { "w": 96, "h": 16 },
+    "duration": 100
+   },
+   "Art 2.aseprite": {
+    "frame": { "x": 0, "y": 32, "w": 96, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "sourceSize": { "w": 96, "h": 16 },
+    "duration": 100
+   },
+   "Art 3.aseprite": {
+    "frame": { "x": 0, "y": 48, "w": 96, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "sourceSize": { "w": 96, "h": 16 },
+    "duration": 100
+   },
+   "Art 4.aseprite": {
+    "frame": { "x": 0, "y": 64, "w": 96, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "sourceSize": { "w": 96, "h": 16 },
+    "duration": 100
+   },
+   "Art 5.aseprite": {
+    "frame": { "x": 0, "y": 80, "w": 96, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "sourceSize": { "w": 96, "h": 16 },
+    "duration": 100
+   },
+   "Art 6.aseprite": {
+    "frame": { "x": 0, "y": 96, "w": 96, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "sourceSize": { "w": 96, "h": 16 },
+    "duration": 100
+   },
+   "Art 7.aseprite": {
+    "frame": { "x": 0, "y": 112, "w": 96, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "sourceSize": { "w": 96, "h": 16 },
+    "duration": 100
+   },
+   "Art 8.aseprite": {
+    "frame": { "x": 0, "y": 128, "w": 96, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "sourceSize": { "w": 96, "h": 16 },
+    "duration": 100
+   },
+   "Art 9.aseprite": {
+    "frame": { "x": 0, "y": 144, "w": 96, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 16 },
+    "sourceSize": { "w": 96, "h": 16 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "PlayerRollSS_nocolor.aseprite",
+  "format": "RGBA8888",
+  "size": { "w": 96, "h": 160 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 2 Copy", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

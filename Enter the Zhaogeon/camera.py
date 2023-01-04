@@ -1,6 +1,6 @@
 from pygame import *
 
-from common import *
+from settings import *
 
 class Camera(sprite.Sprite):
     def __init__(self):

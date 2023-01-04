@@ -1,0 +1,2 @@
+resolutionx:
+resolutiony:

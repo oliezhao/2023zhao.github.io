@@ -1,0 +1,1 @@
+{"screenx": 1366, "screeny": 786, "arx": 16, "ary": 9}

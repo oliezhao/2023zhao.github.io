@@ -17,6 +17,8 @@ class Player(sprite.Sprite):
         self.face_direction = ""
         self.move_direction = Vector2(0,0)
         
+        self.bullet_spritegroup = sprite.Group()
+        
         self.cursor =  Cursor()
     
     def speed_calc(self):

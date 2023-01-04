@@ -94,10 +94,10 @@ class Map():
         self.player.bullets.draw(screen)
         self.tile_sg_l2.draw(screen)
         
-        draw.rect(screen, "Green", self.player.rect, 2)
-        draw.rect(screen, "Red", self.camera.rect, 2)
-        for hitbox in self.hitboxes:
-            draw.rect(screen, "Blue", hitbox.rect, 2)
+        # draw.rect(screen, "Green", self.player.rect, 2)
+        # draw.rect(screen, "Red", self.camera.rect, 2)
+        # for hitbox in self.hitboxes:
+        #     draw.rect(screen, "Blue", hitbox.rect, 2)
     def move(self):
 
         self.player.move("x")
@@ -122,6 +122,7 @@ class Map():
         #--Sprite Group
         for hitbox in self.hitboxes:
             self.sprites.add(hitbox)
+            self.nonpsprites.add(hitbox)
 
         for tile in self.tile_sg_l1:
             self.tiles.add(tile)

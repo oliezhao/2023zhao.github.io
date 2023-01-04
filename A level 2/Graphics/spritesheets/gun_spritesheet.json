@@ -1,0 +1,20 @@
+{"frames": {
+
+"pistol.png":
+{
+	"frame": {"x":0,"y":0,"w":8,"h":7},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":7},
+	"sourceSize": {"w":8,"h":7}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "gun_spritesheet.png",
+	"format": "RGBA8888",
+	"size": {"w":8,"h":7},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:4e2b5b3671ddd50d30451aceb2fb3e44:4fc8a5efa4bebcd8257ef5a3f79a4adb:3b1dcf39f5112ed97bf41940ea5e1f72$"
+}
+}

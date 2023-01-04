@@ -21,7 +21,7 @@ class Map():
         self.worldshift = Vector2(0,0)
         
         #camra
-        self.camera = Camra()
+        self.camera = Camera()
         self.camera_spritegroup = sprite.GroupSingle(self.camera)
         
         #declaring player
@@ -32,7 +32,7 @@ class Map():
 
         #wall
         self.wall_spritegroup = sprite.Group()
-        
+        self.bullet_spritegroup = sprite.Group()
         self.notp_spritegroup = sprite.Group()
 
         self.loadmap(level1)

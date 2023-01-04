@@ -1,0 +1,14 @@
+{ "columns":16,
+ "image":"wall_spritesheet.png",
+ "imageheight":144,
+ "imagewidth":256,
+ "margin":0,
+ "name":"wall_spritesheet",
+ "spacing":0,
+ "tilecount":144,
+ "tiledversion":"1.9.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.9"
+}
