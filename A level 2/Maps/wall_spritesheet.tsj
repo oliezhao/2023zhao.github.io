@@ -1,5 +1,5 @@
 { "columns":16,
- "image":"wall_spritesheet.png",
+ "image":"..\/Graphics\/spritesheets\/wall_spritesheet.png",
  "imageheight":144,
  "imagewidth":256,
  "margin":0,

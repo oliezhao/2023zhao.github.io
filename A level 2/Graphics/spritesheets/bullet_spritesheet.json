@@ -1,0 +1,28 @@
+{"frames": {
+
+"E.png":
+{
+	"frame": {"x":0,"y":0,"w":5,"h":5},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":5,"h":5},
+	"sourceSize": {"w":5,"h":5}
+},
+"P.png":
+{
+	"frame": {"x":5,"y":0,"w":5,"h":5},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":5,"h":5},
+	"sourceSize": {"w":5,"h":5}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "bullet_spritesheet.png",
+	"format": "RGBA8888",
+	"size": {"w":10,"h":5},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:143e46c7e4ca85eb8f70dcf74d592af8:44a6d10e9eaadf62ee60869f0413852b:88e3a57d333b73bbca45675425459156$"
+}
+}

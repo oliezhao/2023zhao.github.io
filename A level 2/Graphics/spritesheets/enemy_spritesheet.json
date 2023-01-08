@@ -1,6 +1,6 @@
 {"frames": {
 
-"EE.png":
+"EE/g_idle_1.png":
 {
 	"frame": {"x":0,"y":0,"w":8,"h":12},
 	"rotated": false,
@@ -8,9 +8,25 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":12},
 	"sourceSize": {"w":8,"h":12}
 },
-"EW.png":
+"EE/idle_1.png":
 {
 	"frame": {"x":0,"y":12,"w":8,"h":12},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":12},
+	"sourceSize": {"w":8,"h":12}
+},
+"EW/g_idle_1.png":
+{
+	"frame": {"x":0,"y":24,"w":8,"h":12},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":12},
+	"sourceSize": {"w":8,"h":12}
+},
+"EW/idle_1.png":
+{
+	"frame": {"x":0,"y":36,"w":8,"h":12},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":12},
@@ -21,8 +37,8 @@
 	"version": "1.0",
 	"image": "enemy_spritesheet.png",
 	"format": "RGBA8888",
-	"size": {"w":8,"h":24},
+	"size": {"w":8,"h":48},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c15befef646b123c313c83331af5fc93:5dd9d2b7535204ba0da43e689c480779:faf48928ceb19e28be3c1e934377f4d9$"
+	"smartupdate": "$TexturePacker:SmartUpdate:01f9ec106101316bce0ccecdc49f200f:1795231f86c10c40952a6e1bb4c92773:faf48928ceb19e28be3c1e934377f4d9$"
 }
 }

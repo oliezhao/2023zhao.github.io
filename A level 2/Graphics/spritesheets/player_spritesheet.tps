@@ -173,13 +173,21 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">../sprites/playersprites/PE/g_idle_1.png</key>
             <key type="filename">../sprites/playersprites/PE/idle_1.png</key>
+            <key type="filename">../sprites/playersprites/PN/g_idle_1.png</key>
             <key type="filename">../sprites/playersprites/PN/idle_1.png</key>
+            <key type="filename">../sprites/playersprites/PNE/g_idle_1.png</key>
             <key type="filename">../sprites/playersprites/PNE/idle_1.png</key>
+            <key type="filename">../sprites/playersprites/PNW/g_idle_1.png</key>
             <key type="filename">../sprites/playersprites/PNW/idle_1.png</key>
+            <key type="filename">../sprites/playersprites/PS/g_idle_1.png</key>
             <key type="filename">../sprites/playersprites/PS/idle_1.png</key>
+            <key type="filename">../sprites/playersprites/PSE/g_idle_1.png</key>
             <key type="filename">../sprites/playersprites/PSE/idle_1.png</key>
+            <key type="filename">../sprites/playersprites/PSW/g_idle_1.png</key>
             <key type="filename">../sprites/playersprites/PSW/idle_1.png</key>
+            <key type="filename">../sprites/playersprites/PW/g_idle_1.png</key>
             <key type="filename">../sprites/playersprites/PW/idle_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -217,17 +225,26 @@
             </struct>
             <key type="filename">../sprites/playersprites/PE/roll_2.png</key>
             <key type="filename">../sprites/playersprites/PE/roll_3.png</key>
+            <key type="filename">../sprites/playersprites/PE/roll_5.png</key>
+            <key type="filename">../sprites/playersprites/PN/roll_5.png</key>
             <key type="filename">../sprites/playersprites/PNE/roll_3.png</key>
+            <key type="filename">../sprites/playersprites/PNE/roll_5.png</key>
             <key type="filename">../sprites/playersprites/PNW/roll_2.png</key>
             <key type="filename">../sprites/playersprites/PNW/roll_3.png</key>
+            <key type="filename">../sprites/playersprites/PNW/roll_5.png</key>
             <key type="filename">../sprites/playersprites/PS/roll_1.png</key>
             <key type="filename">../sprites/playersprites/PS/roll_2.png</key>
+            <key type="filename">../sprites/playersprites/PS/roll_5.png</key>
             <key type="filename">../sprites/playersprites/PSE/roll_2.png</key>
             <key type="filename">../sprites/playersprites/PSE/roll_3.png</key>
+            <key type="filename">../sprites/playersprites/PSE/roll_5.png</key>
             <key type="filename">../sprites/playersprites/PSW/roll_2.png</key>
             <key type="filename">../sprites/playersprites/PSW/roll_3.png</key>
+            <key type="filename">../sprites/playersprites/PSW/roll_5.png</key>
             <key type="filename">../sprites/playersprites/PW/roll_2.png</key>
             <key type="filename">../sprites/playersprites/PW/roll_3.png</key>
+            <key type="filename">../sprites/playersprites/PW/roll_5.png</key>
+            <key type="filename">../sprites/playersprites/roll_5.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

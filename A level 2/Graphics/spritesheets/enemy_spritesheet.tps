@@ -173,8 +173,10 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../sprites/Enemies/EE.png</key>
-            <key type="filename">../sprites/Enemies/EW.png</key>
+            <key type="filename">../sprites/enemies/EE/g_idle_1.png</key>
+            <key type="filename">../sprites/enemies/EE/idle_1.png</key>
+            <key type="filename">../sprites/enemies/EW/g_idle_1.png</key>
+            <key type="filename">../sprites/enemies/EW/idle_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -196,8 +198,7 @@
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
-                    <filename>../sprites/Enemies/EE.png</filename>
-                    <filename>../sprites/Enemies/EW.png</filename>
+                    <filename>../sprites/enemies</filename>
                 </array>
             </struct>
         </map>
