@@ -26,19 +26,15 @@ class Entities(sprite.Sprite):
         self.statuses = []
         self.cont_speed = 0
         self.move_angle = 0
+        self.move_direction = Vector2(0, 0)
         
         self.guns = sprite.Group()
         self.gun = sprite.GroupSingle()
 
     def move_direction_calc(self):
-        x = self.move_direction.x
-        y = self.move_direction.y
-        
-        if x != 0 and y != 0:
-            if x > 0: self.move_direction.x = 0.7
-            else: self.move_direction.x = -0.7
-            if y > 0: self.move_direction.y = 0.7
-            else: self.move_direction.y = -0.7
+
+        self.move_direction.x = cos(self.move_angle)
+        self.move_direction.y = sin(self.move_angle)
             
     def hurt(self, damage):
         self.health -= damage
@@ -90,8 +86,8 @@ class Entities(sprite.Sprite):
         if self.gun: self.hold_gun()
         
     def move(self, direction: str):
-        if direction == "x": self.hitbox.x += round(self.speed * cos(self.move_angle))
-        if direction == "y": self.hitbox.y -= round(self.speed * sin(self.move_angle))
+        if direction == "x": self.hitbox.x += round(self.speed * self.move_direction.x)
+        if direction == "y": self.hitbox.y -= round(self.speed * self.move_direction.y)
     
     def animate(self):
         
@@ -125,8 +121,17 @@ class Player(Entities):
         
         self.speed_cont = 1 * scale
         self.speed = self.speed_cont
-        self.move_direction = Vector2(0, 0)
+
+    def move_direction_calc(self):
+        x = self.move_direction.x
+        y = self.move_direction.y
         
+        if x != 0 and y != 0:
+            if x > 0: self.move_direction.x = 0.7
+            else: self.move_direction.x = -0.7
+            if y > 0: self.move_direction.y = 0.7
+            else: self.move_direction.y = -0.7
+
     def inputs(self):
         keys = key.get_pressed()
         buttons = mouse.get_pressed()
@@ -292,8 +297,6 @@ class Enemy(Entities):
         if self.clock - self.timer_1 >= 50:
             self.timer_1 = self.clock
             self.rand_val_1 = random.randint(1,2)
-
-            print(str(self.rand_val_1))
             
     def shoot(self):
         if self.gun.sprite.clip > 0:
@@ -319,7 +322,9 @@ class Enemy(Entities):
         else:
             if self.rand_val_1 == 1: self.move_angle = self.angle + 1.57    
             if self.rand_val_1 == 2: self.move_angle = self.angle - 1.57
-            
+
+        self.move_direction_calc()
+        
         self.move("x")
         self.move("y")
         

@@ -62,12 +62,60 @@ class Game:
         self.current_map = Map()
         
         self.non_player_spritegroups = [self.enemies, self.bullets, self.guns, self.current_map.tiles]
-
         
     def unclick(self, menu):
         for button in menu.buttons:
             button.clicked = False
 
+    def collision(self, direction):
+        for tile in self.current_map.tiles:
+            if tile.hitbox.sprite: 
+                tile = tile.hitbox.sprite
+                for enemy in sprite.spritecollide(tile, self.enemies, False):
+                    if direction == "x":
+                        if enemy.move_direction.x > 0: enemy.hitbox.right = tile.rect.left - 1
+                        if enemy.move_direction.x < 0: enemy.hitbox.left = tile.rect.right + 1
+                        
+                    if direction == "y":
+                        if enemy.move_direction.y > 0: enemy.hitbox.top = tile.rect.bottom - 1
+                        if enemy.move_direction.y < 0: enemy.hitbox.bottom = tile.rect.top + 1
+            
+        for tile in sprite.spritecollide(self.player, self.current_map.tiles, False):
+            if tile.hitbox.sprite: 
+                tile = tile.hitbox.sprite
+                if direction == "x":
+                    if self.player.move_direction.x > 0: self.player.hitbox.right = tile.rect.left - 1
+                    if self.player.move_direction.x < 0: self.player.hitbox.left = tile.rect.right + 1
+                if direction == "y":
+                    if self.player.move_direction.y > 0: self.player.hitbox.top = tile.rect.bottom + 1
+                    if self.player.move_direction.y < 0: self.player.hitbox.bottom = tile.rect.top + 1
+
+    def move(self, direction, increment: int = 0):
+        for spritegroup in self.non_player_spritegroups: 
+            for object in spritegroup:
+                if direction == "x": 
+                    object.rect.x -= round(self.player.speed * self.player.move_direction.x)
+                    object.rect.x -= increment
+                if direction == "y": 
+                    object.rect.y += round(self.player.speed * self.player.move_direction.y)
+                    object.rect.y += increment
+                if spritegroup == self.enemies:
+                    if direction == "x": 
+                        object.hitbox.x -= round(self.player.speed * self.player.move_direction.x)
+                        object.hitbox.x -= increment
+                    if direction == "y": 
+                        object.hitbox.y += round(self.player.speed * self.player.move_direction.y)
+                        object.hitbox.y += increment
+            
+        for tile in self.current_map.tiles:
+            if tile.hitbox:
+                if direction == "x": 
+                    tile.hitbox.sprite.rect.x -= round(self.player.speed * self.player.move_direction.x)
+                    tile.hitbox.sprite.rect.x -= increment
+                if direction == "y": 
+                    tile.hitbox.sprite.rect.y += round(self.player.speed * self.player.move_direction.y)
+                    tile.hitbox.sprite.rect.y += increment
+    
     def run(self): #methods  
         while True:
             keys = key.get_pressed()
@@ -104,13 +152,11 @@ class Game:
                                 gun.highlight = True
                                 if e.type == KEYDOWN and e.key == K_e:
                                     self.guns.remove(gun)
+                                    self.player.pickup_gun(gun)
                                     for player_gun in self.player.guns:
                                         if gun.id == player_gun.id:
                                             print("yep")
                                             player_gun.ammo += 10
-                                        else:
-                                            print("nope")
-                                            self.player.pickup_gun(gun)
                             else:
                                 gun.highlight = False
                     
@@ -151,6 +197,8 @@ class Game:
                         self.menus.remove(self.main_menu)
                         self.menu.empty()
                         
+                        self.current_map.load_map()
+                        
                         self.player = Player(screenx/2, screeny/2)
                         self.enemy_1 = Enemy(screenx/2, screeny/2, Five_Pointer(reload_time = 50, cooldown = 30))
                         self.enemies.add(self.enemy_1)
@@ -184,12 +232,12 @@ class Game:
             if self.gamestate == "level_select": #Level select
                 self.screen.fill("#D38DD5")
 
-            if self.level_select_menu.test_level_button.clicked:
-                self.menus.remove(self.level_select_menu)
-                self.menu.empty()
-                self.current_map = Map()
-                self.gamestate == "game"
-                
+                if self.level_select_menu.test_level_button.clicked:
+                    self.menus.remove(self.level_select_menu)
+                    self.menu.empty()
+                    self.current_map = Map()
+                    self.gamestate == "game"
+                    
             if self.gamestate == "game": #---Game
                 
                 if not(self.pause): #--Updates
@@ -202,7 +250,7 @@ class Game:
                             self.player_bullets.add(self.player.gun.sprite.bullets)
                              
                         self.bullets.add(self.player_bullets)
-                    
+                        
                     if 1 == 1:#Enemy update
                         for enemy in self.enemies:
                             enemy.update(self.player.hitbox.center)
@@ -234,11 +282,12 @@ class Game:
                         self.player_UI.update_health(self.player.health)
                         self.player_UI.update_book(self.player.gun)
                     
-                    # for spritegroup in self.non_player_spritegroups:
-                    #     for sprite in spritegroup:
-                    #         sprite.rect.x -= round(self.player.speed * self.player.move_direction)
-                    #         sprite.rect.y += round(self.player.speed * self.player.move_direction)
-                            
+                    if 1 == 1:#map move
+                        self.move("x")
+                        # self.collision("x")
+                        self.move("y")
+                        # self.collision("y")
+                        
                 if 1 == 1: #--Draws
                     self.screen.fill("Black")
                     
@@ -271,7 +320,7 @@ class Game:
                         for enemy in self.enemies:
                             draw_text(enemy.health, enemy.hitbox.centerx, enemy.hitbox.top - scale)
                         
-                        draw_text(self.player.health, self.player.hitbox.centerx , self.player.hitbox.top - scale)
+                        #draw_text(self.player.health, self.player.hitbox.centerx , self.player.hitbox.top - scale)
                         
                         self.player_UI.draw()#draw UI goes here
                         
@@ -284,10 +333,14 @@ class Game:
                     if 0 == 1:
                         draw.rect(self.screen, "Green", self.player.hitbox, 2)
                         if self.player.gun: draw.rect(self.screen, "Blue", self.player.gun.sprite.rect, 2)
+                        for enemy in self.enemies:
+                            if enemy.gun: draw.rect(self.screen, "Blue", enemy.gun.sprite.rect, 2)
                         for enemy in self.enemies: draw.rect(self.screen, "Red", enemy.hitbox, 2)
                         for gun in self.guns: draw.rect(self.screen, "Blue", gun.rect, 2)
                         for bullet in self.bullets: draw.rect(self.screen, "Purple", bullet.rect, 2)
-
+                        for tile in self.current_map.tiles: 
+                            if tile.hitbox: draw.rect(self.screen, "Blue", tile.hitbox.sprite.rect, 2)
+                        
                 if self.pause: #--pause menu
                     #-pause menu buttons
                     if self.pause_menu.resume_button.clicked:
@@ -299,6 +352,7 @@ class Game:
                     if self.pause_menu.return_to_menu_button.clicked:
                         self.pause = False
                         self.gamestate = "title_screen"
+                        self.current_map.deload_map()
                         
                         self.player.kill() #move this into map.despawn method
                         for gun in self.player.guns:
@@ -319,7 +373,7 @@ class Game:
                         exit()
                   
                 #--debug
-                string = self.enemy_1.debug_msg
+                string = str(self.player.guns)
                 if self.show_debug: debug(string)
             
             if self.menus: #---Menu Handler

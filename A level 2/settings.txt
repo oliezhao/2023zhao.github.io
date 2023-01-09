@@ -1,1 +1,1 @@
-{"screenx": 1920, "screeny": 1080, "arx": 16, "ary": 9}
+{"screenx": 1280, "screeny": 780, "arx": 16, "ary": 9}
